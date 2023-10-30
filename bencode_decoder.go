@@ -27,7 +27,7 @@ func decodeBencodeUtil(bencode string, length int) (interface{}, int) {
 	case 'i':
 		var delimiterIndex = strings.Index(bencode[i:], "e")
 		var resultTmpInt, _ = strconv.Atoi(bencode[i+1 : delimiterIndex])
-		return resultTmpInt, i + delimiterIndex
+		return resultTmpInt, i + delimiterIndex + 1
 	// Decode a list
 	case 'l':
 		i++
@@ -47,11 +47,11 @@ func decodeBencodeUtil(bencode string, length int) (interface{}, int) {
 		for bencode[i] != 'e' {
 			var key, lengthKey = decodeBencodeUtil(bencode[i:], length)
 			i += lengthKey
-			value, length = decodeBencodeUtil(bencode[i:], i)
+			value, length = decodeBencodeUtil(bencode[i:], length+lengthKey)
 			i += length
 			dict[key.(string)] = value
 		}
-		return dict, i + length
+		return dict, i + 1
 	case 'e':
 		break
 
