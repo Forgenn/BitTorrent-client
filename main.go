@@ -3,6 +3,5 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("Hello, World!")
-	decodeBencode("A")
+	fmt.Println(decodeTorrentFile("test/example.torrent"))
 }
